@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Bower inline loader (BIL)</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+    
+  <div id="container">
+      <a href="https://github.com/ravenlp/grunt-bower-inline-loader"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h1">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <h1>Bower inline loader (BIL)</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap for-h2">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2>Gruntfile configuration</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>$config = {
+    bowerInlineLoader: {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Target definition, as BIL is a multi-tasks you can configure several targets, this is usefull
+if you want to place, for instance, all file of a kind (say .js) on a usemin block and have another
+block with your .css files</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        target: {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>The <strong>template</strong> file to use as starting point to add the assets. <em>Mandatory</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            template: <span class="string">"tmp/build.html"</span>,
+
+            options:{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>This options add all bower dependencies.
+Takes the same list as the result of running  <code>bower list --path</code> on your project&#39;s root directory.
+The resulting list will be later tested against the <strong>filter</strong> regex to ensure
+we are including the right files. <strong>NOTE:</strong> Bower will list a directory instead
+of a file if the dependency does not specify their main file via the <em>main</em>
+property on their bower dependency definition. So be sure to make the <strong>filter</strong>
+check smart enough to only let files go though.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                bower: <span class="literal">true</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p><strong>Destination file</strong> where the result will be saved. If this file does not exist it will be created with the content
+of the template file + the assets. <em>Mandatory</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                dest: <span class="string">"dist/index.html"</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p><strong>Usemin</strong> configuration, setting this will make the BIL to look for an already defined markup block as, per this example:</p>
+<p><code>&lt;!-- build:js scripts/main.js --&gt; ... &lt;!-- endbuild --&gt;</code></p>
+<p>and if it finds it the all the loaded assets will be written inside that block. <em>Note: this will replace any other content already inside</em>
+If the block is not found a new block will be placed at the bottom of the page for Js files and just above <code>&lt;/head&gt;</code> for css.
+<em>Optional</em>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                usemin: {
+                    type: <span class="string">'js'</span>,
+                    minFile: <span class="string">'scripts/main.js'</span>
+                },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p><strong>Filter</strong>, regex to apply to every file collected from bower (if applies) and the candidates files array. <em>Optional</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                filter: <span class="string">'.js'</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p><strong>Type</strong> of the files we are including, this is used to determinate the markup tag we should use. <em>Optional</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                type: <span class="string">'js'</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Extra options to manage <strong>paths</strong>. This is <em>optional</em> as every option in it.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                path: {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>String to attach to every path as <strong>prefix</strong>.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    prefix: <span class="string">'../../'</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>If we also need to do any kind of <strong>replacement</strong>, this is the place to do it.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                    replace: [</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Simple string replacement, happening for every path.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                        {from: <span class="string">'\.js'</span>, to: <span class="string">'js?v=2'</span>},
+                        {from: <span class="string">'components'</span>, to: <span class="string">'vendor'</span>}
+                    ]
+                }
+            },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p><strong>Candidates files</strong> To be placed in the html, * as wildcard is accepted. <em>Optional</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            files: [
+                {src : [<span class="string">'components/cp-model/app/scripts/app.js'</span>, <span class="string">'components/cp-*/*.js'</span>]}
+            ]
+        },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>An example of another simpler target configuration.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        css: {
+            template: <span class="string">"tmp/build.html"</span>,
+            options:{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>We won&#39;t use bower dependencies this time, just grab the candidates file array <strong>bower: false</strong></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                bower: <span class="literal">false</span>,
+                dest: <span class="string">"dist/index.html"</span>,
+                filter: <span class="string">'.css'</span>,
+                type: <span class="string">'css'</span>
+            },
+            files: [
+                {src : [<span class="string">'app/styles/*.css'</span>]}
+            ]
+        }
+    }
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
