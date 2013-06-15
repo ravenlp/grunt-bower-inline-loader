@@ -9,34 +9,7 @@
  * This task is intended to add the bower dependencies to a html file without using requireJs, this is sometimes helpful during development.
  * The assets, if specified, are grouped in a usemin-like block style
  *
- * Example configuration:
- *
- * bowerInlineLoader: {
- *   targetName: {
- *     template: "app/scripts/index.html",
- *     options:{
- *       usemin: {
- *         minFile: 'scripts/main.js'
- *       },
- *       dest: "app/script/final.js",
- *       bower: false,
- *       filter: '',
- *       type: 'js',
- *       path: {
- *         prefix: '../',
- *         replace: [
- *           {from: '\.js', to: '.txt?v=2'},
- *           {from: 'components', to: 'vendor'}
- *         ]
- *       }
- *     },
- *     files: [
- *       {src : ['components/cp-model/app/scripts/app.js', 'components/**\/*.js']}
- *     ]
- *   }
- * }
- *
- * All configuration is optional, except the template and dest paths
+ * For examples on how to configure this task please refer to http://ravenlp.github.io/grunt-bower-inline-loader/
  *
  **/
 'use strict';
@@ -70,9 +43,7 @@ module.exports = function (grunt) {
                     if(data){
                         for(var path in data){
                             if (grunt.util._.isArray(data[path])){
-                                data[path].forEach(function(p){
-                                    candidates.push(p);
-                                });
+                                candidates.concat(data[path]);
                             } else {
                                 candidates.push(data[path]);
                             }
@@ -123,7 +94,7 @@ module.exports = function (grunt) {
 
         // As bower list folders when the dependency doesn't have the main attribute set on the manifest we need to filter them
         candidates = grunt.util._.filter(candidates, function(path){
-            return RegExp(config.filter).test(path);
+            return (new RegExp(config.filter)).test(path);
         });
 
         // Filtering duplicated files
@@ -157,7 +128,9 @@ module.exports = function (grunt) {
      * @returns string
      */
     var createMarkup = function(filePath, config){
-        if (config.type == 'css') return '\t<link href="' + filePath + '" rel="stylesheet" type="text/css"/>';
+        if (config.type === 'css') {
+            return '\t<link href="' + filePath + '" rel="stylesheet" type="text/css"/>';
+        }
         return '\t<script src="' + filePath + '"></script>';
     };
 
@@ -187,14 +160,13 @@ module.exports = function (grunt) {
      * @returns string
      */
     var replaceToken = function(content, options, scripts){
-        var anchor = (options.type == 'css')? '</head>' : '</body>';
+        var anchor = (options.type === 'css')? '</head>' : '</body>';
         var needle = '';
         // Should we use usemin tokens
         if (options.usemin && options.usemin.minFile){
             var tokenPattern = new RegExp(
-                /<!--\s*build:/.source + options.usemin.type + ' ' +
-                    options.usemin.minFile + /\s*-->/.source +
-                    /([\s\S]*?)\<\!-- endbuild --\>/.source , "gm");
+                (/<!--\s*build:/.source) + options.usemin.type + ' ' +
+                    options.usemin.minFile + (/\s*-->/.source) + (/([\s\S]*?)<!-- endbuild -->/.source), "gm");
             // It's already placed on the file?
             var block = tokenPattern.exec(content);
             if (block){
@@ -213,5 +185,5 @@ module.exports = function (grunt) {
             scripts.push(needle);
         }
         return content.replace(needle, scripts.join(EOL));
-    }
+    };
 };

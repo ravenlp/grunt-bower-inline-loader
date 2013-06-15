@@ -86,7 +86,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
     // Test task
-    grunt.registerTask('test', ['clean', 'bowerInlineLoader', 'nodeunit']);
+    grunt.registerTask('test', ['jshint', 'clean', 'bowerInlineLoader', 'nodeunit']);
 
     // Default task.
     grunt.registerTask('default', []);
