@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Grunt task to add assets from bower components or a user defined file set into html documents",
   "main": "Gruntfile.js",
-  "homepage": "https://github.com/ravenlp/grunt-bower-inline-loader",
+  "homepage": "http://ravenlp.github.io/grunt-bower-inline-loader/",
   "directories": {
     "test": "test"
   },
