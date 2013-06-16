@@ -26,18 +26,20 @@ grunt.loadNpmTasks('grunt-bower-requirejs');
 
 
 ```js
-bowerInlineLoader:{
-    css: {
-            template: "tmp/build.html",
-            options:{
-                dest: "dist/index.html",
-                type: 'css'
-            },
-            files: [
-                {src : ['app/styles/*.css']}
-            ]
+grunt.initConfig({
+    bowerInlineLoader:{
+        css: {
+                template: "tmp/build.html",
+                options:{
+                    dest: "dist/index.html",
+                    type: 'css'
+                },
+                files: [
+                    {src : ['app/styles/*.css']}
+                ]
+            }
         }
-    }
+}
 ```
 
 This example takes all the files paths matching the glob pattern `app/styles/*.css` and adds each of them as a `<link>` tag to the content of the template file, saving the whole document referencing the new assets to the `dest` path.
